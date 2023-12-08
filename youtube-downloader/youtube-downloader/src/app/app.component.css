@@ -1,0 +1,63 @@
+.toolbar {
+    display: flex;
+    position: fixed !important;
+    justify-content: space-between;
+    background-color: rebeccapurple;
+    color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+
+  .mat-drawer-content {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    overflow: hidden;
+}
+/* Style for the privacy policy link */
+.privacy-policy {
+    font-size: 14px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #ffffff; /* White color */
+    transition: color 0.3s ease-in-out; /* Smooth color transition */
+    
+  }
+  mat-form-field{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    margin-top: 25px;
+    margin-left: 10px;
+    height: 75px;
+  }
+  
+  .menu-spacer {
+    flex: 1; /* Takes up remaining space */
+  }
+  .nav-links {
+    display: flex;
+    gap: 15px; /* Adjust the space between links */
+  }
+  .privacy-policy:hover {
+    color: white; /* Change color on hover */
+  }  
+  mat-sidenav{
+    margin-top:55px;
+  }
+  
+
+  .header-title {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  .header-title a{
+      color: white;
+    text-decoration: none;
+  }
+  .download-icon{
+    display: flex;
+    gap: 5px;
+    flex-direction: row;
+    align-items: center;
+  }

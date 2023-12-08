@@ -1,0 +1,298 @@
+
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 50px; 
+  }
+  .toggle-group-container {
+    display: flex;
+    justify-content: center;
+  }
+  
+  mat-button-toggle-group {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    margin-bottom: 20px; 
+    animation: fadeInUp 0.5s ease; 
+    margin-top: 100px; 
+  justify-content: center;
+  align-items: center;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .mat-card {
+    max-width: 800px;
+    margin: auto;
+    text-align: center;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+  }
+  .form {
+    display: flex;
+    flex-direction: column;
+  }
+  .form-field {
+    width: 100%;
+    margin-right: 20px;
+  }
+  
+  .error-message {
+    color: #f44336; /* Red color */
+    font-size: 12px;
+    margin-top: 4px;
+    transition: opacity 0.3s ease-in-out;
+    opacity: 0;
+  }
+  
+  .error-message.ng-tns-c89-0 {
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+  }
+  
+  .get-thumbnail {
+    min-width: 120px;
+  }
+  
+  input {
+    width: 90%;
+    padding: 8px;
+    margin: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+  }
+  
+  /* Button styling */
+  button {
+    margin-top: 10px;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  /* Thumbnail container styling */
+  .thumbnail-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+  }
+  
+  /* Thumbnail image styling */
+  .thumbnail-container img {
+    margin-top: 15px;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  /* Thumbnail buttons styling */
+  .thumbnail-buttons {
+    margin-top: 10px;
+    display: flex;
+    align-items: stretch;
+    align-content: stretch;
+    flex-wrap: wrap;
+    flex-direction: row;
+    word-wrap: break-word;
+  }
+  .thumbnail-button {
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    align-items: stretch;
+    align-content: stretch;
+    flex-direction: column;
+  }
+  .downloadbutton{
+    height: 60px;
+    width: 47%;
+  }
+  .main-title-app{
+   font-size: 20px;
+   margin: 25px;
+   word-wrap: break-word;
+  }
+  
+  .thumbnail-buttons button {
+    margin-top: 5px;
+    font-size: 14px;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .thumbnail-buttons button:hover {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+
+  .getThumbnail:hover{
+  background-color: #007bff;
+  color: white;
+  }
+  /* Add these styles to your existing CSS */
+
+/* Thumbnail container styling */
+.thumbnail-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+/* Thumbnail image styling */
+.thumbnail-container img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Thumbnail buttons styling */
+
+
+.thumbnail-buttons button:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+.duration{
+    font-size: 20px;
+}
+
+.step-icon{
+    font-size: 150px;
+    height: 150px;
+    width: 150px;
+    color: red;
+}
+.arrow-icon{
+    font-size: 150px;
+    height: 150px;
+    width: 150px;
+}
+
+  /* privacy css below*/
+
+.main-card {
+    margin-top: 20px;
+    padding: 20px;
+    width: 100%;
+    text-align: center;
+    background-color: #fff;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .main-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  mat-card-header{
+    justify-content: center;
+  }
+  
+  .section {
+  margin-top: 30px;
+  flex-direction: column;
+  flex-wrap: wrap;
+  padding: 20px;
+  background-color: #f5f5f5;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+/* Adjustments for headings and paragraphs within the card */
+.section h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.section p {
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+  
+  h3 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+
+  .inner-icons {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Adjust spacing between groups */
+  }
+  
+  .icon-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px; /* Adjust spacing between elements */
+  }
+  
+  .video-title{
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+  
+  h3 {
+    margin: 0;
+    text-align: center; /* Center-align the heading */
+  }
+  
+  @media (max-width: 768px) {
+    /* Add responsive styles if needed */
+  }
+  
+
+  /*mat-toolbar*/
+
+
+  .content-section {
+    padding: 40px 0;
+  }
+  
+  h2 {
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+  }
+  
+  p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+  
+  .how-to-download {
+    padding: 10px 0;
+  }
+
+  .step {
+    background-color: #f5f5f5;
+    /* padding: 10px; */
+    border-radius: 5px;
+  }
+  
+
+
+
+
+  
+  
+  
