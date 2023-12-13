@@ -3,6 +3,8 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
+    "target": "es2015",
+    "useDefineForClassFields": true,
     "types": [
       "node"
     ]
@@ -12,7 +14,9 @@
     "src/main.server.ts",
     "server.ts",
     "src/app/app.module.ts",
-    "src/app/app.module.server.ts"
+    "src/app/app.module.server.ts",
+    "src/app/youtube-thumbnail-downloader/youtube-thumbnail-downloader.component.ts",
+    "src/app/app.component.ts"
 
 
   ],

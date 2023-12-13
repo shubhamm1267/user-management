@@ -1,16 +1,18 @@
-import { Component,ViewChild } from '@angular/core';
+import { Component,ViewChild,OnInit,Inject, PLATFORM_ID } from '@angular/core';
 import { YouTubeThumbnailDownloaderService } from '../you-tube-thumbnail-downloader.service';
 import Swal from 'sweetalert2';
-import { NgxSpinnerService } from 'ngx-spinner';
+// import { NgxSpinnerService } from 'ngx-spinner';
 import { MatSidenav } from '@angular/material/sidenav';
-import { concatMap } from 'rxjs/operators';
+import { NgxUiLoaderService } from "ngx-ui-loader"; // Import NgxUiLoaderService
+import { Title,Meta } from '@angular/platform-browser';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-youtube-thumbnail-downloader',
   templateUrl: './youtube-thumbnail-downloader.component.html',
   styleUrls: ['./youtube-thumbnail-downloader.component.css']
 })
-export class YoutubeThumbnailDownloaderComponent {
+export class YoutubeThumbnailDownloaderComponent implements OnInit {
   @ViewChild('sidenav') sidenav!: MatSidenav;
   thumbnailUrls: { [quality: string]: string } = {};
   selectedQuality = 'maxresdefault';
@@ -22,76 +24,91 @@ export class YoutubeThumbnailDownloaderComponent {
   downloadTasks: any[] = [];
   isDownloading = false;
   selectedSection: string = 'video';
-
-
-
+  deferredPrompt: any;
+  showInstallButton = false;
 
 
   constructor(private youtubeThumbnailDownloaderService: YouTubeThumbnailDownloaderService,
-    private spinner: NgxSpinnerService) {
+    private ngxService: NgxUiLoaderService, private titleService: Title,@Inject(PLATFORM_ID) private platformId: Object, 
+    private metaTagService: Meta ) {
      }
+  ngOnInit() {
+    this.titleService.setTitle("Y7Mate . Youtube Video,thumbnail Image and mp3 Download");
+    this.metaTagService.updateTag({ 
+      name: 'keywords',
+      content: 'youtube thumbnail grabber,youtube video grabber,youtube mp3 grabber,youtube thumbnail save,convert youtube to mp3,get youtube video thumbnail,y7mate,y7mate downloader,download youtube video,download youtube thumbnail,download youtube mp3,youtube downloader,youtube mp3 downloader,youtube songs downlaoder,youtube video downloader,youtube thumbnail downloader,youtube mp3 download'
+  });
+    this.metaTagService.updateTag({ 
+      name: 'description',
+      content: 'Y7Mate - this platform allows you to download youtube video,youtube thumbnail and convert youtube mp3'
+  });
+  if (isPlatformBrowser(this.platformId)) {
+    window.addEventListener('beforeinstallprompt', (event) => {
+      event.preventDefault();
+      this.deferredPrompt = event;
+      this.showInstallButton = true; // Set this to true when the prompt is available
+    });
+  }
+}
 
-     getVideoDetailsForVideo() {
-      this.spinner.show();
-      this.spinner.hide();
-      const videoUrl: string = this.videoUrl;
-      if (!videoUrl || videoUrl.trim() === '') {
-        this.showWarnToast(`Please add Url First`);
+
+     async getVideoDetailsForVideo() {
+      const videoUrl: string = this.videoUrl?.trim();
+    
+      if (!videoUrl) {
+        this.showWarnToast('Please add a URL first');
         return;
       }
     
       const videoId = this.extractVideoId(videoUrl);
-      if (videoId) {
-        this.spinner.show();
-        this.youtubeThumbnailDownloaderService.getAvailableVideoFormats(videoId).pipe(
-          concatMap((formats: any[]) => {
-            this.videoQualities = formats
-              .map((format) => {
-                const sizeInBytes = format.sizeInBytes || 0; // Replace 'sizeInBytes' with the actual property name
-      
-                const sizeInMB = sizeInBytes / (1024 * 1024); // Convert bytes to megabytes
-                let sizeLabel = sizeInMB > 1024 ? `${(sizeInMB / 1024).toFixed(2)} GB` : `${sizeInMB.toFixed(2)} MB`;
-                if(format.sizeInBytes ==null){
-                  sizeLabel = '';
-                }
-                if(format.quality == null){
-                  format.quality = '';
-                }
-                const label = `${format.quality} - ${format.container} ${sizeLabel}`;
-      
-                return {
-                  code: format.itag.toString(),
-                  label: label,
-                };
-              });
-            return this.youtubeThumbnailDownloaderService.getVideoDetails(videoId);
-          })
-        ).subscribe(
-          (response: any) => {
-            this.spinner.hide();
-            if (response) {
-              this.videoDetails = response.items && response.items.length > 0 ? response.items[0].snippet : {};
-              this.videoDetails.thumbnailUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
-              const videoDuration = response.items && response.items.length > 0 ? response.items[0].contentDetails?.duration : '';
-              const formattedDuration = this.convertDuration(videoDuration);
-              this.videoDetails.videoDuration = formattedDuration;
-            }
-          },
-          (error) => {
-            this.spinner.hide();
-            console.error('Error fetching video details:', error);
-            this.displayError('Error fetching video details');
-          }
-        );
+    
+      if (!videoId) {
+        return;
+      }
+    
+      try {
+        this.ngxService.start();
+    
+        const formats:any |undefined = await this.youtubeThumbnailDownloaderService.getAvailableVideoFormats(videoId).toPromise();
+    
+        this.videoQualities = formats.map((format:any) => {
+          const sizeInBytes = format.sizeInBytes || 0;
+          const sizeInMB = sizeInBytes / (1024 * 1024);
+          const sizeLabel = sizeInMB > 1024 ? `${(sizeInMB / 1024).toFixed(2)} GB` : `${sizeInMB.toFixed(2)} MB`;
+    
+          const label = `${format.quality || ''} - ${format.container || ''} ${format.sizeInBytes ? sizeLabel : ''}`;
+    
+          return {
+            code: format.itag.toString(),
+            label: label,
+          };
+        });
+    
+        const response = await this.youtubeThumbnailDownloaderService.getVideoDetails(videoId).toPromise();
+    
+        if (response?.items?.length > 0) {
+          const videoDetails = response.items[0].snippet;
+          this.videoDetails = {
+            ...videoDetails,
+            thumbnailUrl: `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`,
+            videoDuration: this.convertDuration(response.items[0].contentDetails?.duration || ''),
+          };
+        }
+    
+        this.ngxService.stop();
+      } catch (error) {
+        this.ngxService.stop();
+        console.error('Error fetching video details:', error);
+        this.displayError('Error fetching video details');
       }
     }
     
-  
     downloadMP3() {
+      this.ngxService.start();
       const videoId = this.extractVideoId(this.videoUrl);
       if (videoId) {
-        this.spinner.show();
         const downloadUrl = `${this.youtubeThumbnailDownloaderService.getMP3DownloadUrl(videoId)}`;
+        this.ngxService.stop();
         const a = document.createElement('a');
         a.href = downloadUrl;
         a.download = `audio.mp3`;
@@ -100,9 +117,9 @@ export class YoutubeThumbnailDownloaderComponent {
         a.click();
         document.body.removeChild(a);
         setTimeout(() => {
-          this.spinner.hide();
+        
           this.showSuccessToast(`Wait Download Started Soon`);
-        }, 5000);
+        }, 4000);
       } else {
         this.showErrorToast(`Something Wrong`);
       }
@@ -138,10 +155,11 @@ export class YoutubeThumbnailDownloaderComponent {
   }
 
   downloadVideo(quality: string) {
+    this.ngxService.start();
     const videoId = this.extractVideoId(this.videoUrl);
     if (videoId) {
-          this.spinner.show();
-          const downloadUrl = `${this.youtubeThumbnailDownloaderService.getDownloadUrl(videoId, quality)}`;
+      const downloadUrl = `${this.youtubeThumbnailDownloaderService.getDownloadUrl(videoId, quality)}`;
+      this.ngxService.stop();
           const a = document.createElement('a');
           a.href = downloadUrl;
           a.download = `video.mp4`;
@@ -150,9 +168,8 @@ export class YoutubeThumbnailDownloaderComponent {
           a.click();
           document.body.removeChild(a);
           setTimeout(() => {
-          this.spinner.hide();
           this.showSuccessToast(`Wait Download Started Soon`);
-          },5000);
+          },4000);
     }
     else{
       this.showErrorToast(`Something Wrong`);
@@ -258,5 +275,20 @@ export class YoutubeThumbnailDownloaderComponent {
 
   onToggleChange(event: any) {
     this.selectedSection = event.value;
+  }
+  installPwa() {
+    if (isPlatformBrowser(this.platformId) && this.deferredPrompt) {
+      this.deferredPrompt.prompt();
+      this.deferredPrompt.userChoice
+        .then((choiceResult:any) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('User accepted the install prompt');
+          } else {
+            console.log('User dismissed the install prompt');
+          }
+          this.deferredPrompt = null;
+          this.showInstallButton = false;
+        });
+    }
   }
 }

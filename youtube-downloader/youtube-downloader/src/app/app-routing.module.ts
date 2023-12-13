@@ -7,8 +7,7 @@ import { TermsComponent } from './terms/terms.component';
 import { PostComponent } from './post/post.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/youtube', pathMatch: 'full' },
-  { path: 'youtube', component: YoutubeThumbnailDownloaderComponent },
+  {path:'', component:YoutubeThumbnailDownloaderComponent},
   {path:'privacy',component:PrivacyPolicyComponent},
   {path:'post',component:PostComponent},
   {path:'about',component:HeaderComponent},

@@ -1,19 +1,20 @@
-<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "triangle-skew-spin" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
+<ngx-ui-loader></ngx-ui-loader>
 <ng-container class="container">
+  <div class="inner-content card" style="margin-top: 120px;">     
+  <mat-card class="mat-card card mat-elevation-z4" *ngIf="selectedSection === 'video'">
     <div class="toggle-group-container">
-        <mat-button-toggle-group name="sectionToggle" class="mat-elevation-z4" (change)="onToggleChange($event)" [value]="selectedSection">
-          <mat-button-toggle value="video"><b>Video</b></mat-button-toggle>
-          <mat-button-toggle value="thumbnail"><b>Thumbnail</b></mat-button-toggle>
-          <mat-button-toggle value="mp3"><b>MP3</b></mat-button-toggle>
+      <mat-button-toggle-group name="sectionToggle" class="mat-elevation-z4" (change)="onToggleChange($event)" [value]="selectedSection">
+        <mat-button-toggle value="video"><b class="capsule-text">Video</b></mat-button-toggle>
+        <mat-button-toggle value="thumbnail"><b class="capsule-text">Thumbnail</b></mat-button-toggle>
+        <mat-button-toggle value="mp3" class="capsule-text"><b>MP3</b></mat-button-toggle>
 
-        </mat-button-toggle-group>
-      </div>     
-    <mat-card class="mat-card mat-elevation-z4" *ngIf="selectedSection === 'video'">
-        <mat-card-title><h5 class="main-title-app">Youtube Video Downloader</h5></mat-card-title>
+      </mat-button-toggle-group>
+    </div>      
+        <mat-card-title><h3 class="down-head">Youtube Video Downloader</h3></mat-card-title>
         <mat-card-content>
           <div class="input-container">
             <input type="text" matInput (keydown)="onKeyDown($event)" placeholder="Enter YouTube video URL" [(ngModel)]="videoUrl" class="url-input">
-            <button mat-flat-button color="primary" class="getThumbnail" (click)="getVideoDetailsForVideo()">Download Video</button>
+            <button mat-flat-button color="primary" class="getThumbnail" (click)="getVideoDetailsForVideo()">Get Video</button>
           </div>
       
           <div *ngIf="videoDetails && videoDetails.title" class="thumbnail-container">
@@ -37,11 +38,19 @@
         </mat-card-content>
       </mat-card>
       <mat-card class="mat-card mat-elevation-z4" *ngIf="selectedSection === 'mp3'">
-        <mat-card-title><h5 class="main-title-app">Youtube MP3 Downloader</h5></mat-card-title>
+        <div class="toggle-group-container">
+          <mat-button-toggle-group name="sectionToggle" class="mat-elevation-z4" (change)="onToggleChange($event)" [value]="selectedSection">
+            <mat-button-toggle value="video"><b class="capsule-text">Video</b></mat-button-toggle>
+            <mat-button-toggle value="thumbnail"><b class="capsule-text">Thumbnail</b></mat-button-toggle>
+            <mat-button-toggle value="mp3" class="capsule-text"><b>MP3</b></mat-button-toggle>
+    
+          </mat-button-toggle-group>
+        </div>
+        <mat-card-title><h3 class="down-head">Youtube MP3 Downloader</h3></mat-card-title>
         <mat-card-content>
           <div class="input-container">
             <input type="text" matInput (keydown)="onKeyDown($event)" placeholder="Enter YouTube video URL" [(ngModel)]="videoUrl" class="url-input">
-            <button mat-flat-button color="primary" class="getThumbnail" (click)="getVideoDetailsForVideo()">Download MP3</button>
+            <button mat-flat-button color="primary" class="getThumbnail" (click)="getVideoDetailsForVideo()">Get MP3</button>
           </div>
       
           <div *ngIf="videoDetails && videoDetails.title" class="thumbnail-container">
@@ -63,11 +72,19 @@
       </mat-card>
          
     <mat-card class="mat-card mat-elevation-z4" *ngIf="selectedSection === 'thumbnail'">
-        <mat-card-title><h5 class="main-title-app">YouTube Thumbnail Downloader</h5></mat-card-title>
+      <div class="toggle-group-container">
+        <mat-button-toggle-group name="sectionToggle" class="mat-elevation-z4" (change)="onToggleChange($event)" [value]="selectedSection">
+          <mat-button-toggle value="video"><b class="capsule-text">Video</b></mat-button-toggle>
+          <mat-button-toggle value="thumbnail"><b class="capsule-text">Thumbnail</b></mat-button-toggle>
+          <mat-button-toggle value="mp3" class="capsule-text"><b>MP3</b></mat-button-toggle>
+  
+        </mat-button-toggle-group>
+      </div>
+        <mat-card-title><h3 class="down-head">YouTube Thumbnail Downloader</h3></mat-card-title>
         <mat-card-content>
           <div class="input-container">
             <input type="text" matInput (keydown)="onKeyDown($event)" placeholder="Enter YouTube video URL" [(ngModel)]="videoUrl" class="url-input">
-            <button mat-flat-button color="primary" class="getThumbnail" (click)="getVideoDetailsForVideo()">Download Thumbnail</button>
+            <button mat-flat-button color="primary" class="getThumbnail" (click)="getVideoDetailsForVideo()">Get Thumbnail</button>
           </div>
       
           <div *ngIf="videoDetails && videoDetails.title" class="thumbnail-container">
@@ -122,7 +139,7 @@
                         <h3>The No.1 Youtube Video Downloader</h3>
                       
                       <p>
-                        use our website,you can easily download videos and thumbnails from YouTube.YouTube Downloader is a is a faster tool with this you can download MP4, MP3, and 3GP videos and thumbnails from YouTube, free of cost.
+                        use our website,you can easily download videos and thumbnails from YouTube.YouTube Downloader is a faster tool with this you can download MP4, MP3, and 3GP videos and thumbnails and mp3 from YouTube, free of cost.
                       </p>
                       
                       <p>
@@ -151,6 +168,7 @@
         <mat-card-content>
             <div class="section">
                 <h3>How To Download Youtube Video</h3>
+                <h5>Download youtube video</h5>
                 <section class="how-to-download">
                     <div fxLayout="column" fxLayoutGap="10px" class="container">
                       
@@ -208,9 +226,23 @@
         </mat-card-content>
         <mat-card-content>
           <div class="section">
+              <h3>How To Download Our App</h3>
+              <h4>Our App Supports All Devices Android,IOS,Windows.Click on below button to Download Y7Mate APP.
+                The Y7Mate YouTube Downloader APK is a versatile application available for Windows, Android, and iOS platforms. With its compact size, this app offers seamless video,thumbnail and mp3 downloading from YouTube across multiple devices
+              </h4>
+              <div fxLayout="column" fxLayoutGap="10px" class="container">
+                    <mat-icon>android</mat-icon> <mat-icon>phone_iphone</mat-icon> <mat-icon>laptop_windows</mat-icon>
+                    <p><button *ngIf="showInstallButton" mat-button class="download-button" (click)="installPwa()">
+                      Install Y7Mate</button></p>
+                  </div>
+          </div>
+      </mat-card-content>
+        <mat-card-content>
+          <div class="section">
             <section class="why-use-y7mate">
               <div fxLayout="column" fxLayoutGap="20px" class="container">
                 <h3>Youtube Thumbnail Downloader</h3>
+                <h5>Download youtube thumbnail</h5>
                 <h4>Thumbnail Magic! You can download thumbnail in all qualities</h4>
                 <p>
                   But wait, there's more! Y7mate.com isn't just about videos. We understand the importance of the perfect thumbnail. That's why our platform allows you to effortlessly download YouTube video thumbnails in various formats, without any delays, and completely free of charge.</p>
@@ -233,6 +265,7 @@
             <section class="why-use-y7mate">
                 <div fxLayout="column" fxLayoutGap="20px" class="container">
                     <h3>YouTube MP3 Downloader</h3>
+                    <h5>Download youtube mp3</h5>
                     <h4>Unlock Your Favorite YouTube Tracks with Y7mate.com</h4>
                     <p>
                         Elevate your music experience! Y7mate.com is your ultimate destination for transforming YouTube videos into high-quality MP3 tracks effortlessly and without any charges.
@@ -317,5 +350,6 @@
               </div>
         </mat-card-content>       
     </mat-card>
+    </div>
       </ng-container>
       

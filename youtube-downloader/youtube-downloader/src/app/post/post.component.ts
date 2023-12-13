@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.css']
 })
-export class PostComponent {
+export class PostComponent implements OnInit {
   complexCode:string=
   ` class Node {
     constructor(data) {
@@ -68,5 +69,21 @@ export class PostComponent {
   
   linkedList.delete(3);
   linkedList.display(); // Output: 1, 2, 4`;
+
+
+  constructor(private titleService: Title,  
+    private metaTagService: Meta ) {
+     }
+  ngOnInit() {
+    this.titleService.setTitle("Posts . Download Youtube thumbnail Image - Video - MP3");
+    this.metaTagService.updateTag({ 
+      name: 'keywords',
+      content: 'youtube thumbnail saver,youtube video saver, youtube mp3 saver'
+  });
+    this.metaTagService.updateTag({ 
+      name: 'description',
+      content: 'you can download convert youtube video to mp3 and download thumbnails and videoes.'
+  });
+}
 
 }

@@ -1,19 +1,34 @@
-import { Component,ViewChild } from '@angular/core';
+import { Component,ViewChild,OnInit,Inject, PLATFORM_ID } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-
+import { Meta, Title } from '@angular/platform-browser';
+import { Router  } from '@angular/router';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'youtubeThumbnail';
   @ViewChild('sidenav') sidenav!: MatSidenav;
-  
 
-  constructor(){
-  }
-  
-  
+  constructor(private titleService: Title,  
+    private metaTagService: Meta ,private router: Router) {
+   
+     }
+  ngOnInit() {
+    this.titleService.setTitle("Y7Mate . Youtube mp3 Grabber");
+    this.metaTagService.updateTag({ 
+      name: 'keywords',
+      content: 'youtube thumbnail grabber,youtube video grabber,youtube mp3 grabber,youtube thumbnail save,convert youtube to mp3,get youtube video thumbnail,y7mate,y7mate downloader,download youtube video,download youtube thumbnail,download youtube mp3,youtube downloader,youtube mp3 downloader,youtube songs downlaoder,youtube video downloader,youtube thumbnail downloader,youtube mp3 download'
+  });
+    this.metaTagService.updateTag({ 
+      name: 'description',
+      content: 'y7mate - this platform allows you download youtube thumbnail,youtube mp3 and youtube video'
+  });
 }
+
+}
+
+
