@@ -7,11 +7,11 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class YouTubeThumbnailDownloaderService {
-  private serverUrl = 'https://youtube-video-downloader-rgg5.onrender.com/youtube/thumbnail';
+  private serverUrl = 'https://relic-abiding-geranium.glitch.me/youtube/thumbnail';
   // private serverUrl = 'https://youtube-video-downloader-rgg5.onrender.com/youtube/thumbnail';
-  private videoUrl = 'https://youtube-video-downloader-rgg5.onrender.com/youtube/download';
+  private videoUrl = 'https://relic-abiding-geranium.glitch.me/youtube/download';
   private backendUrl = 'https://vercel-app-omega-three.vercel.app';
-  private mp3Url = 'https://youtube-video-downloader-rgg5.onrender.com';
+  private mp3Url = 'https://relic-abiding-geranium.glitch.me';
   private apiKey = 'AIzaSyAZ1H37-neG-t57d4XOgdIRcgRIJ4piQ-8';
   constructor(private http: HttpClient) {}
  
