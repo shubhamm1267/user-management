@@ -1,8 +1,7 @@
-import { Component,ViewChild,OnInit,Inject, PLATFORM_ID } from '@angular/core';
+import { Component,ViewChild,OnInit } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Meta, Title } from '@angular/platform-browser';
 import { Router  } from '@angular/router';
-import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +13,7 @@ export class AppComponent implements OnInit{
   @ViewChild('sidenav') sidenav!: MatSidenav;
 
   constructor(private titleService: Title,  
-    private metaTagService: Meta ,private router: Router) {
+    private metaTagService: Meta) {
    
      }
   ngOnInit() {

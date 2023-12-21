@@ -15,14 +15,9 @@ import { isPlatformBrowser } from '@angular/common';
 export class YoutubeThumbnailDownloaderComponent implements OnInit {
   @ViewChild('sidenav') sidenav!: MatSidenav;
   thumbnailUrls: { [quality: string]: string } = {};
-  selectedQuality = 'maxresdefault';
   videoUrl: any;
-  videoUrlThumbnail: any;
   videoDetails: any = {};
   videoQualities: any[] = [];
-  thumbnailDetails: any = {};
-  downloadTasks: any[] = [];
-  isDownloading = false;
   selectedSection: string = 'video';
   deferredPrompt: any;
   showInstallButton = false;
@@ -50,7 +45,6 @@ export class YoutubeThumbnailDownloaderComponent implements OnInit {
     });
   }
 }
-
 
      async getVideoDetailsForVideo() {
       const videoUrl: string = this.videoUrl?.trim();
@@ -94,7 +88,18 @@ export class YoutubeThumbnailDownloaderComponent implements OnInit {
             videoDuration: this.convertDuration(response.items[0].contentDetails?.duration || ''),
           };
         }
-    
+        const thumbnails = response.items[0].snippet.thumbnails || {};
+        this.thumbnailUrls = {
+          ['maxres']: thumbnails['maxres']?.url || '',
+          ['high']: thumbnails['high']?.url || '',
+          ['standard']: thumbnails['standard']?.url || '',
+          ['medium']: thumbnails['medium']?.url || '',
+          ['default']: thumbnails['default']?.url || '',
+        };
+  
+        if (!this.thumbnailUrls['maxres']) {
+          this.videoDetails.thumbnailUrl = this.thumbnailUrls['high'] || this.thumbnailUrls['standard'] || this.thumbnailUrls['medium'] || this.thumbnailUrls['default'] || '';
+        }
         this.ngxService.stop();
       } catch (error) {
         this.ngxService.stop();

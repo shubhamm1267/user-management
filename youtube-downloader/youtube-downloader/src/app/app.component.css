@@ -2,10 +2,15 @@
     display: flex;
     position: fixed !important;
     justify-content: space-between;
-    background-color: rebeccapurple;
-    color: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: rgb(217 213 213 / 80%); /* Adjust the opacity */
+    backdrop-filter: blur(7px); /* Add the blur effect */
+    transition: background-color 0.3s ease; /* Add transition for a smooth effect */
     z-index: 1000;
+  }
+  @media (max-width: 600px) {
+    .nav-links {
+      display: none;
+    }
   }
 
   .mat-drawer-content {
@@ -19,7 +24,7 @@
     font-size: 14px;
     text-decoration: none;
     font-size: 18px;
-    color: #ffffff; /* White color */
+    color: black; /* White color */
     transition: color 0.3s ease-in-out; /* Smooth color transition */
     
   }
@@ -40,7 +45,7 @@
     gap: 15px; /* Adjust the space between links */
   }
   .privacy-policy:hover {
-    color: white; /* Change color on hover */
+    color: rebeccapurple; /* Change color on hover */
   }  
   mat-sidenav{
     margin-top:55px;
@@ -52,7 +57,7 @@
     font-weight: bold;
   }
   .header-title a{
-      color: white;
+      color: black;
     text-decoration: none;
   }
   .download-icon{

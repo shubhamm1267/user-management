@@ -1,355 +1,568 @@
 <ngx-ui-loader></ngx-ui-loader>
-<ng-container class="container">
-  <div class="inner-content card" style="margin-top: 120px;">     
-  <mat-card class="mat-card card mat-elevation-z4" *ngIf="selectedSection === 'video'">
-    <div class="toggle-group-container">
-      <mat-button-toggle-group name="sectionToggle" class="mat-elevation-z4" (change)="onToggleChange($event)" [value]="selectedSection">
-        <mat-button-toggle value="video"><b class="capsule-text">Video</b></mat-button-toggle>
-        <mat-button-toggle value="thumbnail"><b class="capsule-text">Thumbnail</b></mat-button-toggle>
-        <mat-button-toggle value="mp3" class="capsule-text"><b>MP3</b></mat-button-toggle>
-
-      </mat-button-toggle-group>
-    </div>      
-        <mat-card-title><h3 class="down-head">Youtube Video Downloader</h3></mat-card-title>
-        <mat-card-content>
-          <div class="input-container">
-            <input type="text" matInput (keydown)="onKeyDown($event)" placeholder="Enter YouTube video URL" [(ngModel)]="videoUrl" class="url-input">
-            <button mat-flat-button color="primary" class="getThumbnail" (click)="getVideoDetailsForVideo()">Get Video</button>
-          </div>
-      
-          <div *ngIf="videoDetails && videoDetails.title" class="thumbnail-container">
-            <mat-card class="mat-elevation-z4">
-              <img [src]="videoDetails.thumbnailUrl" alt="Thumbnail Preview" class="thumbnail-image">
-              <h3 class="video-title">Title:{{ videoDetails.title }}</h3>
-              <div class="details-container">
-                  <div *ngIf="videoDetails && videoDetails.videoDuration" class="duration">
-                    <b>Video Duration: {{ videoDetails.videoDuration }}</b>
-                  </div>
-              </div>
-            </mat-card>
-            <p style="color: red;">*After click on below button wait for video download*</p>
-            <div class="thumbnail-buttons" fxLayoutGap="10px">
-              <ng-container *ngFor="let quality of videoQualities">                
-                <button mat-flat-button color="primary" class="downloadbutton" (click)="downloadVideo(quality.code)">{{ quality.label }}</button>
-                
-              </ng-container>
-            </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
-      <mat-card class="mat-card mat-elevation-z4" *ngIf="selectedSection === 'mp3'">
-        <div class="toggle-group-container">
-          <mat-button-toggle-group name="sectionToggle" class="mat-elevation-z4" (change)="onToggleChange($event)" [value]="selectedSection">
-            <mat-button-toggle value="video"><b class="capsule-text">Video</b></mat-button-toggle>
-            <mat-button-toggle value="thumbnail"><b class="capsule-text">Thumbnail</b></mat-button-toggle>
-            <mat-button-toggle value="mp3" class="capsule-text"><b>MP3</b></mat-button-toggle>
-    
-          </mat-button-toggle-group>
-        </div>
-        <mat-card-title><h3 class="down-head">Youtube MP3 Downloader</h3></mat-card-title>
-        <mat-card-content>
-          <div class="input-container">
-            <input type="text" matInput (keydown)="onKeyDown($event)" placeholder="Enter YouTube video URL" [(ngModel)]="videoUrl" class="url-input">
-            <button mat-flat-button color="primary" class="getThumbnail" (click)="getVideoDetailsForVideo()">Get MP3</button>
-          </div>
-      
-          <div *ngIf="videoDetails && videoDetails.title" class="thumbnail-container">
-            <mat-card class="mat-elevation-z4">
-              <img [src]="videoDetails.thumbnailUrl" alt="Thumbnail Preview" class="thumbnail-image">
-              <h3 class="video-title">Title:{{ videoDetails.title }}</h3>
-              <div class="details-container">
-                  <div *ngIf="videoDetails && videoDetails.videoDuration" class="duration">
-                    <b>MP3 Duration: {{ videoDetails.videoDuration }}</b>
-                  </div>
-              </div>
-            </mat-card>
-            <p style="color: red;">*After click on below button wait for mp3 download*</p>
-            <div class="thumbnail-buttons" fxLayoutGap="10px">
-                <button mat-flat-button color="primary" class="downloadbutton" (click)="downloadMP3()">Download MP3</button>
-            </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
-         
-    <mat-card class="mat-card mat-elevation-z4" *ngIf="selectedSection === 'thumbnail'">
+<ng-container class="container">  
+  <!-- video-details.component.html -->
+  <div class="inner-content card" style="margin-top: 120px;">
+    <mat-card class="mat-card card mat-elevation-z4" *ngIf="selectedSection === 'video'">
       <div class="toggle-group-container">
-        <mat-button-toggle-group name="sectionToggle" class="mat-elevation-z4" (change)="onToggleChange($event)" [value]="selectedSection">
+        <mat-button-toggle-group name="sectionToggle" class="mat-elevation-z4" (change)="onToggleChange($event)"
+          [value]="selectedSection">
           <mat-button-toggle value="video"><b class="capsule-text">Video</b></mat-button-toggle>
           <mat-button-toggle value="thumbnail"><b class="capsule-text">Thumbnail</b></mat-button-toggle>
           <mat-button-toggle value="mp3" class="capsule-text"><b>MP3</b></mat-button-toggle>
-  
+
         </mat-button-toggle-group>
       </div>
-        <mat-card-title><h3 class="down-head">YouTube Thumbnail Downloader</h3></mat-card-title>
-        <mat-card-content>
-          <div class="input-container">
-            <input type="text" matInput (keydown)="onKeyDown($event)" placeholder="Enter YouTube video URL" [(ngModel)]="videoUrl" class="url-input">
-            <button mat-flat-button color="primary" class="getThumbnail" (click)="getVideoDetailsForVideo()">Get Thumbnail</button>
-          </div>
-      
-          <div *ngIf="videoDetails && videoDetails.title" class="thumbnail-container">
+      <mat-card-title>
+        <h3 class="down-head">Youtube Video Downloader</h3>
+      </mat-card-title>
+      <mat-card-content>
+        <div class="input-container">
+          <input type="text" matInput (keydown)="onKeyDown($event)" placeholder="Enter YouTube video URL"
+            [(ngModel)]="videoUrl" class="url-input">
+          <button mat-flat-button color="primary" class="getThumbnail" (click)="getVideoDetailsForVideo()">Get
+            Video</button>
+        </div>
+
+        <div *ngIf="videoDetails && videoDetails.title" class="thumbnail-container">
+          <mat-card class="mat-elevation-z4">
             <img [src]="videoDetails.thumbnailUrl" alt="Thumbnail Preview" class="thumbnail-image">
-            <div class="thumbnail-button">
-              <button mat-flat-button color="primary" (click)="downloadImage('default')">Download Default Quality</button>
-              <button mat-flat-button color="primary" (click)="downloadImage('mqdefault')">Download Medium Quality</button>
-              <button mat-flat-button color="primary" (click)="downloadImage('hqdefault')">Download High Quality</button>
-              <button mat-flat-button color="primary" (click)="downloadImage('sddefault')">Download Standard Quality</button>
-              <button mat-flat-button color="primary" (click)="downloadImage('maxresdefault')">Download Max Resolution Quality</button>
+            <h3 class="video-title">Title:{{ videoDetails.title }}</h3>
+            <div class="details-container">
+              <div *ngIf="videoDetails && videoDetails.videoDuration" class="duration">
+                <b>Video Duration: {{ videoDetails.videoDuration }}</b>
+              </div>
             </div>
+          </mat-card>
+          <p style="color: red;">*After click on below button wait for video download*</p>
+          <div class="thumbnail-buttons" fxLayoutGap="10px">
+            <ng-container *ngFor="let quality of videoQualities">
+              <button mat-flat-button color="primary" class="downloadbutton" (click)="downloadVideo(quality.code)">{{
+                quality.label }}</button>
+
+            </ng-container>
           </div>
-        </mat-card-content>
-      </mat-card>
-
-
-
-
-      <mat-card class="main-card mat-elevation-z4">
-        <mat-card-header>
-            <mat-card-title class="main-title">Steps To Download Video</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <div class="section">
-                <div class="inner-icons">
-                    <div class="icon-group">
-                      <mat-card><mat-icon class="step-icon">file_copy</mat-icon></mat-card>
-                      <h3>Copy Video Link</h3><b>copy video link from youtube that video you want to download</b>
-                      <mat-icon class="arrow-icon">arrow_downward</mat-icon>
-                    </div>
-                    
-                    <div class="icon-group">
-                      <mat-card><mat-icon class="step-icon">video_library</mat-icon></mat-card>
-                      <h3>Select Video Format</h3>
-                      <b>Select video format in that format you want to download the video</b>
-                      <mat-icon class="arrow-icon">arrow_downward</mat-icon>
-                    </div>
-                    
-                    <div class="icon-group">
-                      <mat-card><mat-icon class="step-icon">cloud_download</mat-icon></mat-card>
-                      <h3>Download video</h3>
-                      <b>Then click on download to download video in the format you want</b>
-                    </div>
-                  </div>
-                  
-            </div>
-        </mat-card-content>
-        <mat-card-content>
-            <div class="section">
-                <section class="content-section">
-                    <div fxLayout="column" fxLayoutGap="20px" class="container">
-                        <h3>The No.1 Youtube Video Downloader</h3>
-                      
-                      <p>
-                        use our website,you can easily download videos and thumbnails from YouTube.YouTube Downloader is a faster tool with this you can download MP4, MP3, and 3GP videos and thumbnails and mp3 from YouTube, free of cost.
-                      </p>
-                      
-                      <p>
-                        with our website you can download youtube videoes in any device that you want to download,including computers,laptops, tablets, and mobile phones, you dont need to install any software.
-                      </p>
-                      
-                      <p>
-                        Y7mate.com stands as the No.1 YouTube video downloader,our platform allow you to download videoes in high quality like 1080P,720P,480P,360P,144P with webm and mp4 quality that you want to download you can just click on that specific button that quality you want to download.
-                      </p>
-                      
-                      <p>
-                        with our website you can get unlimited videos to download and also search any video from youtube you can easily download that video in high quality
-                      </p>
-                      
-                      <p>
-                        And Also, Y7mate.com gives feature to download YouTube videos thumbnail in various format allows you to download thumbnail from YouTube without any delays.you can download video and Thumbnail free of cost.
-                      </p>
-                      <p>
-                        And Also, Y7mate.com gives feature to download YouTube vidoes in MP3 download MP3 from YouTube without any delays.you can download MP3 free of cost.
-                      </p>
-                    </div>
-                  </section>
-                  
-            </div>
-        </mat-card-content>
-        <mat-card-content>
-            <div class="section">
-                <h3>How To Download Youtube Video</h3>
-                <h5>Download youtube video</h5>
-                <section class="how-to-download">
-                    <div fxLayout="column" fxLayoutGap="10px" class="container">
-                      
-                      <div class="step">
-                        <p><b>step 1:</b>Open the YouTube app on your phone or computer or any device that you have and go to the Youtube.com website.</p>
-                        <img src="/assets/youtube.png" alt="open youtube" height="100%" width="100%">
-                      </div>
-                      
-                      <div class="step">
-                        <p><b>step 2:</b>open the video that you want to download and click the Share button then copy the link of that video.</p>
-                        <img src="/assets/copylink.png" alt="copy link" height="100%" width="100%">
-                      </div>
-                      
-                      <div class="step">
-                        <p><b>step 3:</b>Go to Y7mate.com website, paste the copied Youtube link in the search box and press the Get Video button.</p>
-                        <img src="/assets/searchvideo.png" alt="search video" height="100%" width="100%">
-                      </div>
-                      
-                      <div class="step">
-                        <p><b>step 4:</b>Select the MP4 or MP3 format you want and then click the Download button.</p>
-                        <img src="/assets/formatquality.png" alt="quality" height="100%" width="100%">
-                      </div>
-                    </div>
-                  </section>                  
-            </div>
-        </mat-card-content>
-        <mat-card-content>
-            <div class="section">
-                <h3>How To Download Thumbnails</h3>
-                <section class="how-to-download">
-                    <div fxLayout="column" fxLayoutGap="10px" class="container">
-                      
-                      <div class="step">
-                        <p><b>step 1:</b> Open the YouTube app on your phone or computer or any device that you have and go to the Youtube.com website.</p>
-                        <img src="/assets/youtube.png" alt="open youtube" height="100%" width="100%">
-                      </div>
-                      
-                      <div class="step">
-                        <p><b>step 2:</b> open the video that video thumbnail you want to download and click the Share button then copy the link of that video.</p>
-                        <img src="/assets/copylink.png" alt="copy link" height="100%" width="100%">
-                      </div>
-                      
-                      <div class="step">
-                        <p><b>step 3:</b>Go to Y7mate.com website, paste the copied Youtube link in the search box and press the Get Thumbnail button.</p>
-                        <img src="/assets/searchvideo.png" alt="search video" height="100%" width="100%">
-                      </div>
-                      
-                      <div class="step">
-                        <p><b>4:</b>Select the format you want and then click the Download button.</p>
-                        <img src="/assets/thumbnail.png" alt="quality" height="100%" width="100%">
-                      </div>
-                    </div>
-                  </section>                  
-            </div>
-        </mat-card-content>
-        <mat-card-content>
-          <div class="section">
-              <h3>How To Download Our App</h3>
-              <h4>Our App Supports All Devices Android,IOS,Windows.Click on below button to Download Y7Mate APP.
-                The Y7Mate YouTube Downloader APK is a versatile application available for Windows, Android, and iOS platforms. With its compact size, this app offers seamless video,thumbnail and mp3 downloading from YouTube across multiple devices
-              </h4>
-              <div fxLayout="column" fxLayoutGap="10px" class="container">
-                    <mat-icon>android</mat-icon> <mat-icon>phone_iphone</mat-icon> <mat-icon>laptop_windows</mat-icon>
-                    <p><button *ngIf="showInstallButton" mat-button class="download-button" (click)="installPwa()">
-                      Install Y7Mate</button></p>
-                  </div>
-          </div>
+        </div>
       </mat-card-content>
-        <mat-card-content>
-          <div class="section">
-            <section class="why-use-y7mate">
-              <div fxLayout="column" fxLayoutGap="20px" class="container">
-                <h3>Youtube Thumbnail Downloader</h3>
-                <h5>Download youtube thumbnail</h5>
-                <h4>Thumbnail Magic! You can download thumbnail in all qualities</h4>
-                <p>
-                  But wait, there's more! Y7mate.com isn't just about videos. We understand the importance of the perfect thumbnail. That's why our platform allows you to effortlessly download YouTube video thumbnails in various formats, without any delays, and completely free of charge.</p>
-
-                  <p>🖼️ Thumbnail Variety: Download YouTube video thumbnails hassle-free and in the format of your choice!</p>
-                  <ul>
-                  <li><strong>Default:</strong> Get the standard default thumbnail that captures attention.</li>
-                  <li><strong>Medium:</strong>Opt for a medium-quality thumbnail, ensuring clarity and detail.</li>
-                    <li><strong>High:</strong>Choose a high-quality thumbnail for crystal-clear visuals.</li>
-                      <li><strong>Standard:</strong> Get the standard quality thumbnail, a classic choice for captivating images.</li>
-                        <li><strong>Max Resolution Default:</strong>Experience the ultimate in clarity with the maximum resolution default thumbnail.</li>
-                  </ul>
-                 <p>💫 Instant Access: Say goodbye to waiting. Get instant access to stunning YouTube video thumbnails for your content creation needs.</p>
-              </div>
-            </section>
-          </div>
-        </mat-card-content>
-        <mat-card-content>
-          <div class="section">
-            <section class="why-use-y7mate">
-                <div fxLayout="column" fxLayoutGap="20px" class="container">
-                    <h3>YouTube MP3 Downloader</h3>
-                    <h5>Download youtube mp3</h5>
-                    <h4>Unlock Your Favorite YouTube Tracks with Y7mate.com</h4>
-                    <p>
-                        Elevate your music experience! Y7mate.com is your ultimate destination for transforming YouTube videos into high-quality MP3 tracks effortlessly and without any charges.
-                    </p>
-                    <p>🎵 <strong>Seamless Conversion:</strong> Y7mate.com streamlines the conversion process, turning your beloved YouTube videos into crisp MP3 audio files with ease.</p>
-                    <p>📱 <strong>Device Compatibility:</strong> Access our platform across all devices - computers, laptops, tablets, or mobile phones - without the need for additional software.</p>
-                    <p>🌟 <strong>High-Quality Audio:</strong> Enjoy top-notch audio quality! Convert YouTube videos into MP3 files with precision, ensuring an exceptional listening experience.</p>
-                    <p>🚀 <strong>Unlimited Conversions:</strong> There's no limit here! Convert as many YouTube videos as you want into MP3 files without any restrictions.</p>
-                    <p>💫 <strong>Quick Access:</strong> Bid farewell to long waits. Access your converted MP3 files swiftly and efficiently.</p>
-                </div>
-            </section>
-        </div>        
-        </mat-card-content>
-        <mat-card-content>
-            <div class="section">
-              <section class="why-use-y7mate">
-                <div fxLayout="column" fxLayoutGap="20px" class="container">
-                  <h3>Elevate Your YouTube Experience with Y7mate: The Ultimate Video and Thumbnail Downloader</h3>
-                  <p>
-                    At Y7mate.com, we offer a seamless, hassle-free solution for downloading YouTube videos and thumbnails. Our platform leverages cutting-edge technology to simplify the entire process, providing an efficient and user-friendly experience.
-                  </p>
-          
-                  <h4>Why Choose Y7mate.com?</h4>
-                  <ul>
-                    <li>
-                      <strong>Effortless Downloading:</strong>Y7mate.com stands out as a user-centric platform, ensuring you download YouTube videos effortlessly. With a straightforward interface, the downloading process becomes a breeze, requiring just a few simple steps.
-                    </li>
-                    <li>
-                      <strong>High-Quality Video Downloads:</strong>Our service supports a wide range of video resolutions, including 4K, 1080p, and 720p, ensuring top-notch video quality for your downloads.
-                    </li>
-                    <li>
-                      <strong>Versatile Format Support:</strong>Y7mate.com offers versatility in formats. Whether you prefer MP3, 3GP, MP4, WMA, M4A, FLV, WEBM, OGG, or other formats, we've got you covered. Convert YouTube videos into your desired formats seamlessly.
-                    </li>
-                    <li>
-                      <strong>Cross-Platform Compatibility:</strong>Experience uninterrupted downloads across all platforms and devices. Whether it's your computer, tablet, iPhone, or Android device, our downloader caters to all.
-                    </li>
-                    <li>
-                      <strong>Safe and Free Downloads:</strong>Your safety is our priority. Y7mate.com ensures a secure and free environment for unlimited downloads, guaranteeing a worry-free user experience.
-                    </li>
-                  </ul>
-          
-                  <p>
-                    <strong>Simplicity Redefined</strong><br>
-                    At Y7mate.com, we're committed to continual enhancement, aiming to offer you the finest user experience. Share this tool with friends and family and make the most of effortless YouTube video and thumbnail downloads. Thank you for choosing Y7mate.com for your video download needs.
-                  </p>
-                </div>
-              </section>
-            </div>
-          </mat-card-content>
-          
-        <mat-card-content>
-            <div class="section">
-            <section class="faq">
-                <div fxLayout="column" fxLayoutGap="20px" class="container">
-                  <h3>Frequently Asked Questions</h3>
-              
-                  
-                      <p><strong>What is Youtube video downloader?</strong></p>
-                      <p>Youtube Video Downloader is a tool with this you can download your Youtube videos and thumbnails for free.It supports downloading 1080P,720P,480P,360P,144P videos.With this you caan download your video in high quality and there is no limit to download</p>
-              
-                      <p><strong>How you can download Youtube videos?</strong></p>
-                      <ul>
-                        <li>Step 1: Open the Youtube app in your phone or visit the Youtube.com app or website.</li>
-                        <li>Step 2: search video and open the video that you want to download and click the Share button,then Copy that link.</li>
-                        <li>Step 3: Go to our Y7mate.com website, paste the copied Youtube video link in the search box and press the get video button. (Y7mate.com works with any browsers.It is responsive website that supports any device also)</li>
-                      </ul>
-              
-                      <p><strong>How can you download Youtube videos on Android phone?</strong></p>
-                      <p>Copy the link to the Youtube video Go to Y7mate.com Paste the copied Youtube link in the search box and click on get video and then download.</p>
-              
-                      <p><strong>How to download Youtube videos on iPhone?</strong></p>
-                      <p>For iPhone users,you want to open Safari browser on iOS 13 or get Documents by Readdle app and go to Y7mate.com Paste Youtube video link and then click on get video and then download. (see instructions here).</p>
-              
-                      <p><strong>Where are downloaded Youtube videos saved?</strong></p>
-                      <p>Please check the 'Downloads' folder in your phone or the 'download history' section of your browser.</p>
-              
-                      <p><strong>Which languages Youtube Downloader support?</strong></p>
-                      <p>Y7mate.com is a international tool, currently supported over over 7 popular languages. We will continuously update new language packs to help users download videos from Youtube with the best experience.</p>
-                    
-                </div>
-              </section>
-              </div>
-        </mat-card-content>       
     </mat-card>
-    </div>
-      </ng-container>
-      
+    <mat-card class="mat-card mat-elevation-z4" *ngIf="selectedSection === 'mp3'">
+      <div class="toggle-group-container">
+        <mat-button-toggle-group name="sectionToggle" class="mat-elevation-z4" (change)="onToggleChange($event)"
+          [value]="selectedSection">
+          <mat-button-toggle value="video"><b class="capsule-text">Video</b></mat-button-toggle>
+          <mat-button-toggle value="thumbnail"><b class="capsule-text">Thumbnail</b></mat-button-toggle>
+          <mat-button-toggle value="mp3" class="capsule-text"><b>MP3</b></mat-button-toggle>
+
+
+        </mat-button-toggle-group>
+      </div>
+      <mat-card-title>
+        <h3 class="down-head">Youtube MP3 Downloader</h3>
+      </mat-card-title>
+      <mat-card-content>
+        <div class="input-container">
+          <input type="text" matInput (keydown)="onKeyDown($event)" placeholder="Enter YouTube video URL"
+            [(ngModel)]="videoUrl" class="url-input">
+          <button mat-flat-button color="primary" class="getThumbnail" (click)="getVideoDetailsForVideo()">Get
+            MP3</button>
+        </div>
+
+        <div *ngIf="videoDetails && videoDetails.title" class="thumbnail-container">
+          <mat-card class="mat-elevation-z4">
+            <img [src]="videoDetails.thumbnailUrl" alt="Thumbnail Preview" class="thumbnail-image">
+            <h3 class="video-title">Title:{{ videoDetails.title }}</h3>
+            <div class="details-container">
+              <div *ngIf="videoDetails && videoDetails.videoDuration" class="duration">
+                <b>MP3 Duration: {{ videoDetails.videoDuration }}</b>
+              </div>
+            </div>
+          </mat-card>
+          <p style="color: red;">*After click on below button wait for mp3 download*</p>
+          <div class="thumbnail-buttons" fxLayoutGap="10px">
+            <button mat-flat-button color="primary" class="downloadbutton" (click)="downloadMP3()">Download MP3</button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="mat-card mat-elevation-z4" *ngIf="selectedSection === 'thumbnail'">
+      <div class="toggle-group-container">
+        <mat-button-toggle-group name="sectionToggle" class="mat-elevation-z4" (change)="onToggleChange($event)"
+          [value]="selectedSection">
+          <mat-button-toggle value="video"><b class="capsule-text">Video</b></mat-button-toggle>
+          <mat-button-toggle value="thumbnail"><b class="capsule-text">Thumbnail</b></mat-button-toggle>
+          <mat-button-toggle value="mp3" class="capsule-text"><b>MP3</b></mat-button-toggle>
+
+
+        </mat-button-toggle-group>
+      </div>
+      <mat-card-title>
+        <h3 class="down-head">YouTube Thumbnail Downloader</h3>
+      </mat-card-title>
+      <mat-card-content>
+        <div class="input-container">
+          <input type="text" matInput (keydown)="onKeyDown($event)" placeholder="Enter YouTube video URL"
+            [(ngModel)]="videoUrl" class="url-input">
+          <button mat-flat-button color="primary" class="getThumbnail" (click)="getVideoDetailsForVideo()">Get
+            Thumbnail</button>
+        </div>
+
+        <div *ngIf="videoDetails && videoDetails.title" class="thumbnail-container">
+          <img [src]="videoDetails.thumbnailUrl" alt="Thumbnail Preview" class="thumbnail-image">
+          <div class="thumbnail-button">
+            <button mat-flat-button color="primary" (click)="downloadImage('default')">Download Default Quality</button>
+            <button mat-flat-button color="primary" (click)="downloadImage('mqdefault')">Download Medium
+              Quality</button>
+            <button mat-flat-button color="primary" (click)="downloadImage('hqdefault')">Download High Quality</button>
+            <button mat-flat-button color="primary" (click)="downloadImage('sddefault')">Download Standard
+              Quality</button>
+            <button mat-flat-button color="primary" (click)="downloadImage('maxresdefault')">Download Max Resolution
+              Quality</button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+
+
+
+    <mat-card class="main-card mat-elevation-z4">
+      <mat-card-header>
+        <mat-card-title class="main-title">Steps To Download Video</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="section">
+          <div class="inner-icons">
+            <div class="icon-group">
+              <mat-card><mat-icon class="step-icon">file_copy</mat-icon></mat-card>
+              <h3>Copy Video Link</h3><b>copy video link from youtube that video you want to download</b>
+              <mat-icon class="arrow-icon">arrow_downward</mat-icon>
+            </div>
+
+            <div class="icon-group">
+              <mat-card><mat-icon class="step-icon">video_library</mat-icon></mat-card>
+              <h3>Select Video Format</h3>
+              <b>Select video format in that format you want to download the video</b>
+              <mat-icon class="arrow-icon">arrow_downward</mat-icon>
+            </div>
+
+            <div class="icon-group">
+              <mat-card><mat-icon class="step-icon">cloud_download</mat-icon></mat-card>
+              <h3>Download video</h3>
+              <b>Then click on download to download video in the format you want</b>
+            </div>
+          </div>
+
+        </div>
+      </mat-card-content>
+      <mat-card-content>
+        <div class="section">
+          <h1><b>How To Download Our App</b></h1>
+          <h4>Our App Supports All Devices Android,IOS,Windows.Click on below button to Download Y7Mate APP.
+            The Y7Mate YouTube Downloader APK is a versatile application available for Windows, Android, and iOS
+            platforms. With its compact size, this app offers seamless video,thumbnail and mp3 downloading from YouTube
+            across multiple devices
+          </h4>
+          <div fxLayout="column" fxLayoutGap="10px" class="container">
+            <mat-icon>android</mat-icon> <mat-icon>phone_iphone</mat-icon> <mat-icon>laptop_windows</mat-icon>
+            <p><button *ngIf="showInstallButton" mat-button class="download-button" (click)="installPwa()">
+                Install Y7Mate</button></p>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-content>
+        <div class="section">
+          <section class="content-section">
+            <div fxLayout="column" fxLayoutGap="20px" class="container">
+              <h1><b>The No.1 Youtube Video Downloader</b></h1>
+
+              <p>
+                use our website,you can easily download videos and thumbnails from YouTube.YouTube Downloader is a
+                faster tool with this you can download MP4, MP3, and 3GP videos and thumbnails and mp3 from YouTube,
+                free of cost.
+              </p>
+
+              <p>
+                with our website you can download youtube videoes in any device that you want to download,including
+                computers,laptops, tablets, and mobile phones, you dont need to install any software.
+              </p>
+
+              <p>
+                Y7mate.com stands as the No.1 YouTube video downloader,our platform allow you to download videoes in
+                high quality like 1080P,720P,480P,360P,144P with webm and mp4 quality that you want to download you can
+                just click on that specific button that quality you want to download.
+              </p>
+
+              <p>
+                with our website you can get unlimited videos to download and also search any video from youtube you can
+                easily download that video in high quality
+              </p>
+
+              <p>
+                And Also, Y7mate.com gives feature to download YouTube videos thumbnail in various format allows you to
+                download thumbnail from YouTube without any delays.you can download video and Thumbnail free of cost.
+              </p>
+              <p>
+                And Also, Y7mate.com gives feature to download YouTube vidoes in MP3 download MP3 from YouTube without
+                any delays.you can download MP3 free of cost.
+              </p>
+            </div>
+          </section>
+
+        </div>
+      </mat-card-content>
+      <mat-card-content>
+        <div class="section">
+          <h1><b>How To Download Youtube Video</b></h1>
+          <h5>Download youtube video</h5>
+          <section class="how-to-download">
+            <div fxLayout="column" fxLayoutGap="10px" class="container">
+
+              <div class="step">
+                <p><b>step 1:</b>Open the YouTube app on your phone or computer or any device that you have and go to
+                  the Youtube.com website.</p>
+                <img src="/assets/youtube.png" alt="open youtube" height="100%" width="100%">
+              </div>
+
+              <div class="step">
+                <p><b>step 2:</b>open the video that you want to download and click the Share button then copy the link
+                  of that video.</p>
+                <img src="/assets/copylink.png" alt="copy link" height="100%" width="100%">
+              </div>
+
+              <div class="step">
+                <p><b>step 3:</b>Go to Y7mate.com website, paste the copied Youtube link in the search box and press the
+                  Get Video button.</p>
+                <img src="/assets/searchvideo.png" alt="search video" height="100%" width="100%">
+              </div>
+
+              <div class="step">
+                <p><b>step 4:</b>Select the MP4 or MP3 format you want and then click the Download button.</p>
+                <img src="/assets/formatquality.png" alt="quality" height="100%" width="100%">
+              </div>
+            </div>
+          </section>
+        </div>
+      </mat-card-content>
+      <mat-card-content>
+        <div class="section">
+          <h1><b>How To Download Thumbnails</b></h1>
+          <section class="how-to-download">
+            <div fxLayout="column" fxLayoutGap="10px" class="container">
+
+              <div class="step">
+                <p><b>step 1:</b> Open the YouTube app on your phone or computer or any device that you have and go to
+                  the Youtube.com website.</p>
+                <img src="/assets/youtube.png" alt="open youtube" height="100%" width="100%">
+              </div>
+
+              <div class="step">
+                <p><b>step 2:</b> open the video that video thumbnail you want to download and click the Share button
+                  then copy the link of that video.</p>
+                <img src="/assets/copylink.png" alt="copy link" height="100%" width="100%">
+              </div>
+
+              <div class="step">
+                <p><b>step 3:</b>Go to Y7mate.com website, paste the copied Youtube link in the search box and press the
+                  Get Thumbnail button.</p>
+                <img src="/assets/searchvideo.png" alt="search video" height="100%" width="100%">
+              </div>
+
+              <div class="step">
+                <p><b>4:</b>Select the format you want and then click the Download button.</p>
+                <img src="/assets/thumbnail.png" alt="quality" height="100%" width="100%">
+              </div>
+            </div>
+          </section>
+        </div>
+      </mat-card-content>
+      <mat-card-content>
+        <div class="section">
+          <section class="why-use-y7mate">
+            <div fxLayout="column" fxLayoutGap="20px" class="container">
+              <h1><b>Youtube Thumbnail Downloader</b></h1>
+              <h5>Download youtube thumbnail</h5>
+              <h4>Thumbnail Magic! You can download thumbnail in all qualities</h4>
+              <p>
+                But wait, there's more! Y7mate.com isn't just about videos. We understand the importance of the perfect
+                thumbnail. That's why our platform allows you to effortlessly download YouTube video thumbnails in
+                various formats, without any delays, and completely free of charge.</p>
+
+              <p>🖼️ Thumbnail Variety: Download YouTube video thumbnails hassle-free and in the format of your choice!
+              </p>
+              <ul>
+                <li><strong>Default:</strong> Get the standard default thumbnail that captures attention.</li>
+                <li><strong>Medium:</strong>Opt for a medium-quality thumbnail, ensuring clarity and detail.</li>
+                <li><strong>High:</strong>Choose a high-quality thumbnail for crystal-clear visuals.</li>
+                <li><strong>Standard:</strong> Get the standard quality thumbnail, a classic choice for captivating
+                  images.</li>
+                <li><strong>Max Resolution Default:</strong>Experience the ultimate in clarity with the maximum
+                  resolution default thumbnail.</li>
+              </ul>
+              <p>💫 Instant Access: Say goodbye to waiting. Get instant access to stunning YouTube video thumbnails for
+                your content creation needs.</p>
+            </div>
+          </section>
+        </div>
+      </mat-card-content>
+      <mat-card-content>
+        <div class="section">
+          <section class="why-use-y7mate">
+            <div fxLayout="column" fxLayoutGap="20px" class="container">
+              <h1><b>YouTube MP3 Downloader</b></h1>
+              <h5>Download youtube mp3</h5>
+              <h4>Unlock Your Favorite YouTube Tracks with Y7mate.com</h4>
+              <p>
+                Elevate your music experience! Y7mate.com is your ultimate destination for transforming YouTube videos
+                into high-quality MP3 tracks effortlessly and without any charges.
+              </p>
+              <p>🎵 <strong>Seamless Conversion:</strong> Y7mate.com streamlines the conversion process, turning your
+                beloved YouTube videos into crisp MP3 audio files with ease.</p>
+              <p>📱 <strong>Device Compatibility:</strong> Access our platform across all devices - computers, laptops,
+                tablets, or mobile phones - without the need for additional software.</p>
+              <p>🌟 <strong>High-Quality Audio:</strong> Enjoy top-notch audio quality! Convert YouTube videos into MP3
+                files with precision, ensuring an exceptional listening experience.</p>
+              <p>🚀 <strong>Unlimited Conversions:</strong> There's no limit here! Convert as many YouTube videos as you
+                want into MP3 files without any restrictions.</p>
+              <p>💫 <strong>Quick Access:</strong> Bid farewell to long waits. Access your converted MP3 files swiftly
+                and efficiently.</p>
+            </div>
+          </section>
+        </div>
+      </mat-card-content>
+      <mat-card-content>
+        <div class="section">
+          <section class="why-use-y7mate">
+            <div fxLayout="column" fxLayoutGap="20px" class="container">
+              <h3>Elevate Your YouTube Experience with Y7mate: The Ultimate Video and Thumbnail Downloader</h3>
+              <p>
+                At Y7mate.com, we offer a seamless, hassle-free solution for downloading YouTube videos and thumbnails.
+                Our platform leverages cutting-edge technology to simplify the entire process, providing an efficient
+                and user-friendly experience.
+              </p>
+
+              <h4>Why Choose Y7mate.com?</h4>
+              <ul>
+                <li>
+                  <strong>Effortless Downloading:</strong>Y7mate.com stands out as a user-centric platform, ensuring you
+                  download YouTube videos effortlessly. With a straightforward interface, the downloading process
+                  becomes a breeze, requiring just a few simple steps.
+                </li>
+                <li>
+                  <strong>High-Quality Video Downloads:</strong>Our service supports a wide range of video resolutions,
+                  including 4K, 1080p, and 720p, ensuring top-notch video quality for your downloads.
+                </li>
+                <li>
+                  <strong>Versatile Format Support:</strong>Y7mate.com offers versatility in formats. Whether you prefer
+                  MP3, 3GP, MP4, WMA, M4A, FLV, WEBM, OGG, or other formats, we've got you covered. Convert YouTube
+                  videos into your desired formats seamlessly.
+                </li>
+                <li>
+                  <strong>Cross-Platform Compatibility:</strong>Experience uninterrupted downloads across all platforms
+                  and devices. Whether it's your computer, tablet, iPhone, or Android device, our downloader caters to
+                  all.
+                </li>
+                <li>
+                  <strong>Safe and Free Downloads:</strong>Your safety is our priority. Y7mate.com ensures a secure and
+                  free environment for unlimited downloads, guaranteeing a worry-free user experience.
+                </li>
+              </ul>
+
+              <p>
+                <strong>Simplicity Redefined</strong><br>
+                At Y7mate.com, we're committed to continual enhancement, aiming to offer you the finest user experience.
+                Share this tool with friends and family and make the most of effortless YouTube video and thumbnail
+                downloads. Thank you for choosing Y7mate.com for your video download needs.
+              </p>
+            </div>
+          </section>
+        </div>
+      </mat-card-content>
+      <mat-card-content>
+        <div class="section" style="height: 2px;">
+          <p class="seohide">youtube thumbnail grabber</p>
+          <p class="seohide">youtube video grabber</p>
+          <p class="seohide">youtube mp3 grabber</p>
+          <p class="seohide">youtube thumbnail save</p>
+          <p class="seohide">convert youtube to mp3</p>
+          <p class="seohide">get youtube video thumbnail</p>
+          <p class="seohide">y7mate</p>
+          <p class="seohide">y7mate downloader</p>
+          <p class="seohide">download youtube video</p>
+          <p class="seohide">download youtube thumbnail</p>
+          <p class="seohide">download youtube mp3</p>
+          <p class="seohide">youtube downloader</p>
+          <p class="seohide">youtube mp3 downloader</p>
+          <p class="seohide">youtube songs downlaoder</p>
+          <p class="seohide">youtube video downloader</p>
+          <p class="seohide">youtube thumbnail downloader</p>
+          <p class="seohide">youtube mp3 download</p>
+          <p class="seohide">YouTube video downloader tool</p>
+          <p class="seohide">Best YouTube downloader online</p>
+          <p class="seohide">YouTube downloader software</p>
+          <p class="seohide">Free YouTube downloader tool</p>
+          <p class="seohide">YouTube video grabber</p>
+          <p class="seohide">YouTube thumbnail downloader</p>
+          <p class="seohide">YouTube video saver</p>
+          <p class="seohide">YouTube MP3 downloader</p>
+          <p class="seohide">YouTube MP3 converter</p>
+          <p class="seohide">YouTube audio downloader</p>
+          <p class="seohide">YouTube MP3 grabber</p>
+          <p class="seohide">YouTube to MP3 converter</p>
+          <p class="seohide">Free YouTube video downloader</p>
+          <p class="seohide">YouTube downloader online</p>
+          <p class="seohide">YouTube video converter</p>
+          <p class="seohide">YouTube downloader app</p>
+          <p class="seohide">YouTube online video downloader</p>
+          <p class="seohide">YouTube downloader for PC</p>
+          <p class="seohide">YouTube video download</p>
+          <p class="seohide">YouTube video downloader website</p>
+          <p class="seohide">YouTube thumbnail grabber</p>
+          <p class="seohide">YouTube video downloader for Mac</p>
+          <p class="seohide">YouTube downloader MP3</p>
+          <p class="seohide">YouTube downloader MP4</p>
+          <p class="seohide">YouTube video saver online</p>
+          <p class="seohide">YouTube downloader free online</p>
+          <p class="seohide">YouTube to MP3 downloader</p>
+          <p class="seohide">YouTube online downloader</p>
+          <p class="seohide">YouTube video downloader and converter</p>
+          <p class="seohide">YouTube downloader website</p>
+          <p class="seohide">YouTube video downloader tool online</p>
+          <p class="seohide">YouTube downloader for Android</p>
+          <p class="seohide">YouTube downloader extension</p>
+          <p class="seohide">YouTube video downloader HD</p>
+          <p class="seohide">YouTube thumbnail downloader online</p>
+          <p class="seohide">YouTube downloader MP3 converter</p>
+          <p class="seohide">YouTube downloader online free</p>
+          <p class="seohide">YouTube video downloader for iPhone</p>
+          <p class="seohide">YouTube downloader website online</p>
+          <p class="seohide">YouTube downloader for laptop</p>
+          <p class="seohide">YouTube video downloader and converter online</p>
+          <p class="seohide">YouTube video downloader software free</p>
+          <p class="seohide">YouTube video downloader for Windows</p>
+          <p class="seohide">YouTube downloader MP4 HD</p>
+          <p class="seohide">YouTube to MP3 downloader online</p>
+          <p class="seohide">YouTube downloader for desktop</p>
+          <p class="seohide">YouTube thumbnail downloader HD</p>
+          <p class="seohide">YouTube downloader for Chrome</p>
+          <p class="seohide">YouTube downloader for Firefox</p>
+          <p class="seohide">YouTube downloader online MP4</p>
+          <p class="seohide">YouTube video downloader MP4</p>
+          <p class="seohide">YouTube downloader for mobile</p>
+          <p class="seohide">YouTube downloader MP3 free download</p>
+          <p class="seohide">YouTube downloader for iOS</p>
+          <p class="seohide">YouTube downloader online HD</p>
+          <p class="seohide">YouTube video downloader converter</p>
+          <p class="seohide">YouTube thumbnail downloader free</p>
+          <p class="seohide">YouTube downloader software for PC</p>
+          <p class="seohide">YouTube video downloader for Mac free</p>
+          <p class="seohide">YouTube video downloader for Windows 10</p>
+          <p class="seohide">YouTube to MP3 converter online</p>
+          <p class="seohide">YouTube downloader with playlist</p>
+          <p class="seohide">YouTube video downloader online HD 1080p</p>
+          <p class="seohide">YouTube downloader for Ubuntu</p>
+          <p class="seohide">YouTube downloader for Samsung</p>
+          <p class="seohide">YouTube video downloader and cutter</p>
+          <p class="seohide">YouTube downloader for iPad</p>
+          <p class="seohide">YouTube downloader with subtitles</p>
+          <p class="seohide">YouTube thumbnail downloader online free</p>
+          <p class="seohide">YouTube downloader for Kindle</p>
+          <p class="seohide">YouTube video downloader online without software</p>
+          <p class="seohide">YouTube video downloader app</p>
+          <p class="seohide">YouTube downloader for Nokia</p>
+          <p class="seohide">YouTube downloader online 4k</p>
+          <p class="seohide">YouTube video downloader no watermark</p>
+          <p class="seohide">YouTube thumbnail downloader software</p>
+          <p class="seohide">YouTube downloader for Android tablet</p>
+          <p class="seohide">YouTube downloader with timestamps</p>
+          <p class="seohide">YouTube video downloader 60fps</p>
+          <p class="seohide">YouTube downloader for Smart TV</p>
+          <p class="seohide">YouTube downloader with preview</p>
+          <p class="seohide">YouTube thumbnail downloader 1080p</p>
+          <p class="seohide">YouTube downloader for PSP</p>
+          <p class="seohide">YouTube downloader online 720p</p>
+          <p class="seohide">YouTube video downloader with quality selection</p>
+          <p class="seohide">YouTube downloader for Huawei</p>
+          <p class="seohide">YouTube downloader for BlackBerry</p>
+          <p class="seohide">YouTube video downloader with subtitles</p>
+          <p class="seohide">YouTube downloader for Opera</p>
+          <p class="seohide">YouTube thumbnail downloader plugin</p>
+          <p class="seohide">YouTube to MP3 high quality converter</p>
+          <p class="seohide">YouTube downloader for Mac</p>
+          <p class="seohide">YouTube video downloader online without URL</p>
+          <p class="seohide">YouTube video downloader for iPhone</p>
+          <p class="seohide">YouTube downloader with cover art</p>
+          <p class="seohide">YouTube video downloader with metadata</p>
+          <p class="seohide">YouTube thumbnail downloader online HD</p>
+          <p class="seohide">YouTube downloader for Windows 10</p>
+          <p class="seohide">YouTube video downloader no install</p>
+          <p class="seohide">YouTube downloader with batch download</p>
+          <p class="seohide">YouTube video downloader without watermark</p>
+          <p class="seohide">YouTube downloader for Google Chrome</p>
+          <p class="seohide">YouTube downloader for Firefox</p>
+          <p class="seohide">YouTube video downloader with lyrics</p>
+          <p class="seohide">YouTube thumbnail downloader without watermark</p>
+          <p class="seohide">YouTube downloader with artist name</p>
+          <p class="seohide">YouTube video downloader with album art</p>
+          <p class="seohide">YouTube downloader for MP4</p>
+          <p class="seohide">YouTube downloader for AVI</p>
+          <p class="seohide">YouTube video downloader for VLC</p>
+          <p class="seohide">YouTube downloader with cover image</p>
+          <p class="seohide">YouTube thumbnail downloader plugin for WordPress</p>
+          <p class="seohide">YouTube downloader for iPad mini</p>
+          <p class="seohide">YouTube downloader for iPod</p>
+          <p class="seohide">YouTube video downloader for Kindle Fire</p>
+          <p class="seohide">YouTube thumbnail downloader online 1080p</p>
+          <p class="seohide">YouTube downloader with artist information</p>
+          <p class="seohide">YouTube video downloader with genre</p>
+          <p class="seohide">YouTube downloader for Edge</p>
+          <p class="seohide">YouTube thumbnail downloader plugin for Joomla</p>
+
+        </div>
+      </mat-card-content>
+      <mat-card-content>
+        <div class="section">
+          <section class="faq">
+            <div fxLayout="column" fxLayoutGap="20px" class="container">
+              <h3>Frequently Asked Questions</h3>
+
+
+              <p><strong>What is Youtube video downloader?</strong></p>
+              <p>Youtube Video Downloader is a tool with this you can download your Youtube videos and thumbnails for
+                free.It supports downloading 1080P,720P,480P,360P,144P videos.With this you caan download your video in
+                high quality and there is no limit to download</p>
+
+              <p><strong>How you can download Youtube videos?</strong></p>
+              <ul>
+                <li>Step 1: Open the Youtube app in your phone or visit the Youtube.com app or website.</li>
+                <li>Step 2: search video and open the video that you want to download and click the Share button,then
+                  Copy that link.</li>
+                <li>Step 3: Go to our Y7mate.com website, paste the copied Youtube video link in the search box and
+                  press the get video button. (Y7mate.com works with any browsers.It is responsive website that supports
+                  any device also)</li>
+              </ul>
+
+              <p><strong>How can you download Youtube videos on Android phone?</strong></p>
+              <p>Copy the link to the Youtube video Go to Y7mate.com Paste the copied Youtube link in the search box and
+                click on get video and then download.</p>
+
+              <p><strong>How to download Youtube videos on iPhone?</strong></p>
+              <p>For iPhone users,you want to open Safari browser on iOS 13 or get Documents by Readdle app and go to
+                Y7mate.com Paste Youtube video link and then click on get video and then download. (see instructions
+                here).</p>
+
+              <p><strong>Where are downloaded Youtube videos saved?</strong></p>
+              <p>Please check the 'Downloads' folder in your phone or the 'download history' section of your browser.
+              </p>
+
+              <p><strong>Which languages Youtube Downloader support?</strong></p>
+              <p>Y7mate.com is a international tool, currently supported over over 7 popular languages. We will
+                continuously update new language packs to help users download videos from Youtube with the best
+                experience.</p>
+
+            </div>
+          </section>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</ng-container>

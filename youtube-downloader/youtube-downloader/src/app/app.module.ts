@@ -1,6 +1,6 @@
 import {  NgModule, isDevMode  } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule,HttpClient } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -23,12 +23,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { YoutubeThumbnailDownloaderComponent } from './youtube-thumbnail-downloader/youtube-thumbnail-downloader.component';
 import { YouTubeThumbnailDownloaderService } from './you-tube-thumbnail-downloader.service';
-import { HeaderComponent } from './header/header.component';
-import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
-import { TermsComponent } from './terms/terms.component';
-import { PostComponent } from './post/post.component';
 import { RouterModule } from '@angular/router';
 import { MatRippleModule } from '@angular/material/core';
 import {
@@ -52,10 +48,6 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   declarations: [
     AppComponent,
     YoutubeThumbnailDownloaderComponent,
-    HeaderComponent,
-    PrivacyPolicyComponent,
-    TermsComponent,
-    PostComponent
     ],
   imports: [
     BrowserModule,

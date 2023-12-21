@@ -1,17 +1,25 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { YoutubeThumbnailDownloaderComponent } from './youtube-thumbnail-downloader/youtube-thumbnail-downloader.component';
-import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
-import { HeaderComponent } from './header/header.component';
-import { TermsComponent } from './terms/terms.component';
-import { PostComponent } from './post/post.component';
 
 const routes: Routes = [
   {path:'', component:YoutubeThumbnailDownloaderComponent},
-  {path:'privacy',component:PrivacyPolicyComponent},
-  {path:'post',component:PostComponent},
-  {path:'about',component:HeaderComponent},
-  {path:'terms',component:TermsComponent}
+  {
+    path: 'post',
+    loadChildren: () => import('./post/post.module').then((m) => m.PostModule),
+  },
+  {
+    path: 'terms',
+    loadChildren: () => import('./terms/terms.module').then((m) => m.TermsModule),
+  },
+  {
+    path: 'privacy',
+    loadChildren: () => import('./privacy-policy/privacy-policy.module').then((m) => m.PrivacyPolicyModule),
+  },
+  {
+    path: 'about',
+    loadChildren: () => import('./header/header.module').then((m) => m.HeaderModule),
+  },
 
 ];
 

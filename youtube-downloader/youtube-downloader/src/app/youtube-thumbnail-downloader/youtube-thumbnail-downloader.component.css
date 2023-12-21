@@ -67,8 +67,11 @@ mat-button-toggle:hover {
     background-color: #007bff;
 }
 .mat-button-toggle-appearance-standard.mat-button-toggle-checked{
-  background-color: #663399;
-  color: white;
+  background-color: lightgray;
+  color: black;
+}
+.seohide{
+  font-size: 12px;
 }
 
   
