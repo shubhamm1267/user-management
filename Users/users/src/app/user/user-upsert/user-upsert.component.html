@@ -1,0 +1,53 @@
+<h2>{{ isEdit ? 'Edit User' : 'Add User' }}</h2>
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="user-form">
+    <mat-form-field appearance="fill">
+      <mat-label>First Name</mat-label>
+      <input matInput formControlName="firstName" />
+      <mat-error *ngIf="userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched">
+        First Name is required
+      </mat-error>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Last Name</mat-label>
+      <input matInput formControlName="lastName" />
+      <mat-error *ngIf="userForm.get('lastName')?.invalid && userForm.get('lastName')?.touched">
+        Last Name is required
+      </mat-error>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Address</mat-label>
+      <input matInput formControlName="address" />
+      <mat-error *ngIf="userForm.get('address')?.invalid && userForm.get('address')?.touched">
+        Address is required
+      </mat-error>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" />
+      <mat-error *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched">
+        Email is required
+      </mat-error>
+      <mat-error *ngIf="userForm.get('email')?.hasError('email') && userForm.get('email')?.touched">
+        Invalid email format
+      </mat-error>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Phone</mat-label>
+      <input matInput formControlName="phone" />
+      <mat-error *ngIf="userForm.get('phone')?.invalid && userForm.get('phone')?.touched">
+        Phone number is required
+      </mat-error>
+      <mat-error *ngIf="userForm.get('phone')?.hasError('pattern') && userForm.get('phone')?.touched">
+        Phone number must be 10 digits
+      </mat-error>
+    </mat-form-field>
+  
+    <button type="submit" mat-flat-button color="primary" class="submit-button">
+     <mat-icon>update</mat-icon> {{ isEdit ? 'Update' : 'Add' }}
+    </button>
+  </form>
+  

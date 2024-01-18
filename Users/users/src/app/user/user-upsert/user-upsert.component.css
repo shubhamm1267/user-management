@@ -1,0 +1,17 @@
+.user-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin: auto;
+  }
+  
+  mat-form-field {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .submit-button {
+    margin-top: 20px;
+    align-self: flex-end;
+  }
+  

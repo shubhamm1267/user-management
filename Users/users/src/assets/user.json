@@ -1,0 +1,10 @@
+[
+    {"firstName": "mohit", "lastName": "mahajan", "email": "mohit1@gmail.com", "phone": "1234567890", "address": "pune" },
+    {"firstName": "pranay", "lastName": "patil", "email": "pranay12@gmail.com", "phone": "9876543210", "address": "jalgaon" },
+    {"firstName": "jayesh", "lastName": "chavan", "email": "jayesh53@gmail.com", "phone": "1234567890", "address": "nashik" },
+    {"firstName": "sagar", "lastName": "gujar", "email": "sagar45@gmail.com", "phone": "9876543210", "address": "bhusawal" },
+    {"firstName": "mahesh", "lastName": "chaudhari", "email": "maheshc93@gmail.com", "phone": "1234567890", "address": "mumbai" },
+    {"firstName": "ramesh", "lastName": "patel", "email": "ramesh442@gmail.com", "phone": "9876543210", "address": "thane" },
+    {"firstName": "harshal", "lastName": "mahajan", "email": "harshal0304@gmail.com", "phone": "1234567890", "address": "sambhajinagar" }
+]
+  
