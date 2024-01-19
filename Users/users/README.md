@@ -1,3 +1,13 @@
+This is a Angular application for user management. It allows you to add, edit, and delete user details.
+
+## Features
+
+- Add new users with details such as first name, last name, address, email, and phone number.
+- Edit existing users' details.
+- Delete users from the list.
+- View a list of users with their basic information.
+
+
 # Users
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.0.
