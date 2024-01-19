@@ -1,6 +1,0 @@
-User-agent: *
-Disallow:
-Disallow: /index.html
-Crawl-delay: 60
-
-Sitemap: https://y7mate.com/sitemap.xml

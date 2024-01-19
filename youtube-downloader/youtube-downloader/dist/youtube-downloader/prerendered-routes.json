@@ -1,9 +1,0 @@
-{
-  "routes": [
-    "/",
-    "/about",
-    "/post",
-    "/privacy",
-    "/terms"
-  ]
-}
